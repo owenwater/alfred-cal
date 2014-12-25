@@ -9,8 +9,10 @@ import sys
 
 class Main(object):
 
-    minus_default = '<'
-    plus_default = '>'
+    minus_default = u'<'
+    plus_default = u'>'
+    config_option = u"config"
+    config_desc = u"Open config file"
 
     def __init__(self, args):
         self.args = unicode(args.strip(), 'utf-8')
@@ -29,6 +31,8 @@ class Main(object):
     def main(self, wf):
         cal = Cal(wf.settings)
         year, month = self.handle_arg()
+        if year == -1 and month == -1:
+            return
         texts = cal.get_weeks_text(year, month)
         for index, text in enumerate(texts):
             if index < 2:
@@ -44,6 +48,10 @@ class Main(object):
         month = today.month
         if self.args == u"":
             pass
+        elif self.config_option.startswith(self.args):
+            self.wf.add_item(self.config_desc, valid=True, arg=self.wf.settings_path, autocomplete=self.config_option)
+            self.wf.send_feedback()
+            return -1, -1
         elif self.args.find(self.minus) != -1 or self.args.find(self.plus) != -1:
             delta = self.args.count(self.plus) - self.args.count(self.minus)
             year, month = self.change_month(year, month, delta)
