@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>zmin.cal</string>
+	<string>zmin.calendar</string>
 	<key>connections</key>
 	<dict/>
 	<key>createdby</key>
@@ -13,13 +13,52 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>cal</string>
+	<string>Calendar</string>
 	<key>objects</key>
-	<array/>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>cal</string>
+				<key>script</key>
+				<string>#!/usr/bin/python
+
+import sys
+from main import Main
+
+if __name__=="__main__":
+    main = Main("{query}")
+    main.execute()</string>
+				<key>title</key>
+				<string>Calendar</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>3C835BC3-638B-4577-AEDC-E23EEEA4A032</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
-	<dict/>
+	<dict>
+		<key>3C835BC3-638B-4577-AEDC-E23EEEA4A032</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+	</dict>
 	<key>webaddress</key>
 	<string></string>
 </dict>
