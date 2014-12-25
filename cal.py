@@ -3,12 +3,17 @@
 
 import calendar
 from datetime import date
+from util import get_default
 class Cal(object):
     
-    #TODO: put these into separate file
-    weekdays_name = u"Mo Tu We Th Fr Sa Su".split()
-    month_name=u"January February March April May June July August September October November December".split()
-    width = 10
+    weekdays_name_default = u"Mo Tu We Th Fr Sa Su"
+    month_name_default = u"January February March April May June July August September October November December"
+    width_default = 10
+
+    def __init__(self, settings):
+        self.weekdays_name = get_default(settings, "weekdays", self.weekdays_name_default).split()
+        self.month_name = get_default(settings, "month", self.month_name_default).split()
+        self.width = int(get_default(settings, "width", self.width_default))
     
     def get_weeks(self, year, month, first_weekday=6):
         cal = calendar.Calendar(first_weekday)

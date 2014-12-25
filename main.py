@@ -4,6 +4,7 @@
 from workflow import Workflow
 from cal import Cal
 from datetime import date
+from util import get_default
 import sys
 
 class Main(object):
@@ -26,7 +27,7 @@ class Main(object):
         sys.exit(wf.run(self.main))
 
     def main(self, wf):
-        cal = Cal()
+        cal = Cal(wf.settings)
         year, month = self.handle_arg()
         texts = cal.get_weeks_text(year, month)
         for index, text in enumerate(texts):
@@ -63,13 +64,6 @@ class Main(object):
             ret_year -= 1
         return ret_year, ret_month
 
-
-def get_default(d, key, default):
-    if key not in d:
-        d[key] = default
-        return default
-    else:
-        return d[key]
 
 if __name__=="__main__":
     main = Main(" ".join(sys.argv[1:]))
