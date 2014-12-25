@@ -5,7 +5,19 @@
 	<key>bundleid</key>
 	<string>zmin.calendar</string>
 	<key>connections</key>
-	<dict/>
+	<dict>
+		<key>3C835BC3-638B-4577-AEDC-E23EEEA4A032</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F5EF1D79-CCA3-422D-AF82-D09026D77FA1</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
 	<key>createdby</key>
 	<string>Owen Min</string>
 	<key>description</key>
@@ -48,12 +60,34 @@ if __name__=="__main__":
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>osascript open_cal.scpt "{query}"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>F5EF1D79-CCA3-422D-AF82-D09026D77FA1</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
 		<key>3C835BC3-638B-4577-AEDC-E23EEEA4A032</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>F5EF1D79-CCA3-422D-AF82-D09026D77FA1</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>

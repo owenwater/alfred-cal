@@ -25,8 +25,12 @@ class Main(object):
         cal = Cal()
         year, month = self.handle_arg()
         texts = cal.get_weeks_text(year, month)
-        for text in texts:
-            self.wf.add_item(text, icon = "image/blank.png")
+        for index, text in enumerate(texts):
+            if index < 2:
+                self.wf.add_item(text, icon = "image/blank.png")
+            else:
+                arg = "%d %d %s" %(year, month, text.strip().split()[0])
+                self.wf.add_item(text, icon = "image/biank.png", arg=arg, valid=True)
         self.wf.send_feedback()
 
     def handle_arg(self):
@@ -56,6 +60,6 @@ class Main(object):
         return ret_year, ret_month
 
 if __name__=="__main__":
-    main = Main("<")
+    main = Main(" ".join(sys.argv[1:]))
     main.execute()
 
