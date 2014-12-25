@@ -8,8 +8,8 @@ import sys
 
 class Main(object):
 
-    minus = '<'
-    plus = '>'
+    minus_default = '<'
+    plus_default = '>'
 
     def __init__(self, args):
         self.args = unicode(args.strip(), 'utf-8')
@@ -19,6 +19,10 @@ class Main(object):
         wf = Workflow()
         self.wf = wf
         LOG = wf.logger
+        
+        self.minus = get_default(wf.settings, 'minus', self.minus_default)
+        self.plus = get_default(wf.settings, 'plus', self.plus_default)
+
         sys.exit(wf.run(self.main))
 
     def main(self, wf):
@@ -58,6 +62,14 @@ class Main(object):
         if month % 12 == 0:
             ret_year -= 1
         return ret_year, ret_month
+
+
+def get_default(d, key, default):
+    if key not in d:
+        d[key] = default
+        return default
+    else:
+        return d[key]
 
 if __name__=="__main__":
     main = Main(" ".join(sys.argv[1:]))
