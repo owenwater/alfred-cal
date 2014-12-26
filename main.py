@@ -35,7 +35,9 @@ class Main(object):
             return
         texts = cal.get_weeks_text(year, month)
         for index, text in enumerate(texts):
-            if index < 2:
+            if index == 0:
+                self.wf.add_item(text)
+            elif index < 2:
                 self.wf.add_item(text, icon = "image/blank.png")
             else:
                 arg = "%d %d %s" %(year, month, text.strip().split()[0])
