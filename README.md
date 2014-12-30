@@ -1,6 +1,6 @@
 #Calendar
 
-Displays a calendar with Alfred Workflow.
+Displays a monthly calendar with Alfred Workflow.
 
 #Install
 - Have access to Alfred [Powerpack](http://www.alfredapp.com/powerpack/).
