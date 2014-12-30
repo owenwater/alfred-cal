@@ -45,24 +45,36 @@ class Main(object):
         self.wf.send_feedback()
 
     def handle_arg(self):
-        today = date.today()
-        year = today.year
-        month = today.month
-        if self.args == u"":
-            pass
-        elif self.config_option.startswith(self.args):
+
+        if self.config_option.startswith(self.args) and len(self.args) > 0:
             self.wf.add_item(self.config_desc, valid=True, arg=self.wf.settings_path, autocomplete=self.config_option)
             self.wf.send_feedback()
             return -1, -1
-        elif self.args.find(self.minus) != -1 or self.args.find(self.plus) != -1:
-            delta = self.args.count(self.plus) - self.args.count(self.minus)
-            year, month = self.change_month(year, month, delta)
-        else:
-            args = self.args.split()
-            month = int(args[0])
-            if len(args) > 1:
-                year = int(args[1])
+
+        argv = self.args.split()
+        today = date.today()
+
+        month = self.to_int(self.get_item(argv, 0), today.month)
+        year = self.to_int(self.get_item(argv, 1), today.year)
+        
+        delta_str = self.get_item(argv, -1, "")
+        delta = delta_str.count(self.plus) - delta_str.count(self.minus)
+
+        year, month = self.change_month(year, month, delta)
+
         return year, month
+
+    def get_item(self, arr, index, default_value=None):
+        try:
+            return arr[index]
+        except IndexError:
+            return default_value
+
+    def to_int(self, str, default_value):
+        try:
+            return int(str)
+        except:
+            return default_value
 
     def change_month(self, year, month, delta):
         month += delta
