@@ -25,5 +25,5 @@ Because Alfred does not use monospaced font, please [open a ticket](https://gith
 ![screenshot3](screenshots/screenshot3.png?raw=true)
 
 #Copyright
-- [Alfred-workflow](https://github.com/deanishe/alfred-workflow)) are licensed under the [MIT](http://opensource.org/licenses/MIT) and [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/legalcode) respectively.
+- [Alfred-workflow](https://github.com/deanishe/alfred-workflow) are licensed under the [MIT](http://opensource.org/licenses/MIT) and [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/legalcode) respectively.
 - All other code and documents are licensed under [MIT]{http://opensource.org/licenses/MIT}
