@@ -7,6 +7,7 @@ from datetime import date
 from util import get_default
 import sys
 
+
 class Main(object):
 
     minus_default = u'<'
@@ -38,10 +39,10 @@ class Main(object):
             if index == 0:
                 self.wf.add_item(text)
             elif index < 2:
-                self.wf.add_item(text, icon = "image/blank.png")
+                self.wf.add_item(text, icon="image/blank.png")
             else:
-                arg = "%d %d %s" %(year, month, text.strip().split()[0])
-                self.wf.add_item(text, icon = "image/biank.png", arg=arg, valid=True)
+                arg = "%d %d %s" % (year, month, text.strip().split()[0])
+                self.wf.add_item(text, icon="image/biank.png", arg=arg, valid=True)
         self.wf.send_feedback()
 
     def handle_arg(self):
@@ -79,7 +80,7 @@ class Main(object):
     def change_month(self, year, month, delta):
         month += delta
         ret_month = month % 12
-        ret_year = year + month / 12 
+        ret_year = year + month / 12
         if ret_month == 0:
             ret_month = 12
         if month % 12 == 0:
@@ -87,7 +88,6 @@ class Main(object):
         return ret_year, ret_month
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main = Main(" ".join(sys.argv[1:]))
     main.execute()
-
