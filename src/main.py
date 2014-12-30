@@ -58,6 +58,9 @@ class Main(object):
         month = self.to_int(self.get_item(argv, 0), today.month)
         year = self.to_int(self.get_item(argv, 1), today.year)
         
+        if month <= 0 or month > 12:
+            raise ValueError("month must be in 1..12")
+        
         delta_str = self.get_item(argv, -1, "")
         delta = delta_str.count(self.plus) - delta_str.count(self.minus)
 
