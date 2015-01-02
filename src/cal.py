@@ -12,11 +12,13 @@ class Cal(object):
     weekdays_name_default = u"Mo Tu We Th Fr Sa Su"
     month_name_default = u"January February March April May June July August September October November December"
     width_default = 10
+    highlight_today_default = True
 
     def __init__(self, settings, key, path):
         self.weekdays_name = get_default(settings, "weekdays", self.weekdays_name_default).split()
         self.month_name = get_default(settings, "month", self.month_name_default).split()
         self.width = int(get_default(settings, "width", self.width_default))
+        self.highlight_today = get_default(settings, "highlight_today", self.highlight_today_default)
         self.key = key
         self.path = path
     
@@ -56,7 +58,7 @@ class Cal(object):
         return weeks
 
     def str_day(self, day):
-        if day == date.today():
+        if day == date.today() and self.highlight_today:
             return unichr(0x2605)
         else:
             return unicode(day.day).zfill(2)
