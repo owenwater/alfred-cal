@@ -16,7 +16,7 @@ Displays a monthly calendar with Alfred Workflow.
 - `cal config` Show configuration file.
 
 #Format
-Because Alfred does not use monospaced font, please [open a ticket](https://github.com/owenwater/alfred-cal/issues/new) if there is any formatting issue.
+Workflow adjust formatting based on the font and font size of workflow, please [open a ticket](https://github.com/owenwater/alfred-cal/issues/new) if there is any formatting issue.
 
 
 #Screenshots

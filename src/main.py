@@ -30,7 +30,7 @@ class Main(object):
         sys.exit(wf.run(self.main))
 
     def main(self, wf):
-        cal = Cal(wf.settings)
+        cal = Cal(wf.settings, wf.alfred_env['theme'], wf.alfred_env['preferences'])
         year, month = self.handle_arg()
         if year == -1 and month == -1:
             return

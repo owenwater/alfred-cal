@@ -4,6 +4,7 @@
 import calendar
 from datetime import date
 from util import get_default
+from format import Format
 
 
 class Cal(object):
@@ -12,10 +13,12 @@ class Cal(object):
     month_name_default = u"January February March April May June July August September October November December"
     width_default = 10
 
-    def __init__(self, settings):
+    def __init__(self, settings, key, path):
         self.weekdays_name = get_default(settings, "weekdays", self.weekdays_name_default).split()
         self.month_name = get_default(settings, "month", self.month_name_default).split()
         self.width = int(get_default(settings, "width", self.width_default))
+        self.key = key
+        self.path = path
     
     def get_weeks(self, year, month, first_weekday=6):
         cal = calendar.Calendar(first_weekday)
@@ -25,7 +28,8 @@ class Cal(object):
         texts = []
         texts.append(self.month_text(year, month))
         texts.append(self.week_text(first_weekday))
-        texts += self.date_text(self.get_weeks(year, month, first_weekday), first_weekday)
+        format = Format(self.key, self.path)
+        texts += format.format(self.get_cal(self.get_weeks(year, month, first_weekday)), texts[-1])
         return self.center(texts)
 
     def month_text(self, year, month):
@@ -37,19 +41,19 @@ class Cal(object):
     def new_weekdays_name(self, first_weekday):
         return self.weekdays_name[first_weekday:] + self.weekdays_name[:first_weekday]
 
-    def date_text(self, days, first_weekday):
-        texts = []
-        text = u" "
+    def get_cal(self, days):
         current_month = days[len(days) / 2].month
-        for count, day in enumerate(days):
+        weeks = []
+        week = []
+        for day in days:
             if day.month != current_month:
-                text += " " * (self.width * 5 / 4)
+                week.append('')
             else:
-                text += self.str_day(day).center(self.width)
-            if count % 7 == 6:
-                texts.append(text.rstrip())
-                text = u" "
-        return texts
+                week.append(self.str_day(day))
+            if len(week) == 7:
+                weeks.append(week)
+                week = []
+        return weeks
 
     def str_day(self, day):
         if day == date.today():
@@ -66,6 +70,8 @@ class Cal(object):
 
 
 if __name__ == "__main__":
-    c = Cal()
+    key = "alfred.theme.custom.A1911D25-FB72-4E1C-9180-7A8A71DB327F"
+    path = "/Users/owen/Library/Application Support/Alfred 2/Alfred.alfredpreferences"
+    c = Cal({}, key, path)
     for line in c.get_weeks_text(2014, 11):
         print line
