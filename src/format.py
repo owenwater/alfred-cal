@@ -6,6 +6,9 @@ import plistlib
 import Tkinter as tk
 
 plist = "/preferences/appearance/prefs.plist"
+theme = "theme.plist"
+DEFAULT_FONT = "Helvetica Neue"
+DEFAULT_SIZE = 16
 
 
 class Format(object):
@@ -14,10 +17,20 @@ class Format(object):
         self.font = self._load_font(key, path)
 
     def _load_font(self, key, path):
-        pref = plistlib.readPlist(path + plist)
+        try:
+            font, size = self._load_plist(key, path + plist)
+        except:
+            try:
+                font, size = self._load_plist(key, theme)
+            except:
+                font, size = DEFAULT_FONT, DEFAULT_SIZE
+        return tkFont.Font(family=font, size=size)
+    
+    def _load_plist(self, key, path):
+        pref = plistlib.readPlist(path)
         font = pref['themes'][key]['resultTextFont']
         size = pref['themes'][key]['resultTextFontSize'] * 4 + 8
-        return tkFont.Font(family=font, size=size)
+        return font, size
 
     def format(self, weeks, title):
         pos = [self.font.measure(title[:title.find(day)]) for day in title.split()]
