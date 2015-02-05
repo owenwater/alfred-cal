@@ -4,7 +4,6 @@
 from workflow import Workflow
 from cal import Cal
 from datetime import date
-from util import get_default
 import sys
 
 
@@ -12,6 +11,13 @@ class Main(object):
 
     minus_default = u'<'
     plus_default = u'>'
+    weekdays_name_default = u"Mo Tu We Th Fr Sa Su"
+    month_name_default = u"January February March April May June July August September October November December"
+    width_default = 10
+    highlight_today_default = True
+
+
+
     config_option = u"config"
     config_desc = u"Open config file"
 
@@ -24,8 +30,12 @@ class Main(object):
         self.wf = wf
         LOG = wf.logger
         
-        self.minus = get_default(wf.settings, 'minus', self.minus_default)
-        self.plus = get_default(wf.settings, 'plus', self.plus_default)
+        self.minus = wf.settings.setdefault('minus', self.minus_default)
+        self.plus = wf.settings.setdefault('plus', self.plus_default)
+        wf.settings.setdefault('weekdays', self.weekdays_name_default).split()
+        wf.settings.setdefault("month", self.month_name_default).split()
+        wf.settings.setdefault("width", self.width_default)
+        wf.settings.setdefault("highlight_today", self.highlight_today_default)
 
         sys.exit(wf.run(self.main))
 
@@ -55,8 +65,8 @@ class Main(object):
         argv = self.args.split()
         today = date.today()
 
-        month = self.to_int(self.get_item(argv, 0), today.month)
-        year = self.to_int(self.get_item(argv, 1), today.year)
+        month = self.to_month(self.get_item(argv, 0), today.month)
+        year = self.to_year(self.get_item(argv, 1), today.year)
         
         if month <= 0 or month > 12:
             raise ValueError("month must be in 1..12")
@@ -74,11 +84,24 @@ class Main(object):
         except IndexError:
             return default_value
 
-    def to_int(self, str, default_value):
+    def to_month(self, month, default_month):
         try:
-            return int(str)
+            return int(month)
+        except TypeError:
+            return default_month
         except:
-            return default_value
+            month = month.lower()
+            for i, cal_month in enumerate(self.wf.settings['month'].split()):
+                if cal_month.lower().startswith(month):
+                    return i + 1
+            raise Exception('Invalid month argument.')
+
+
+    def to_year(self, year, default_year):
+        try:
+            return int(year)
+        except:
+            return default_year
 
     def change_month(self, year, month, delta):
         month += delta
