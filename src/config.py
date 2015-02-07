@@ -107,7 +107,10 @@ class Config(Base):
     def _get_text(self, item):
         title = item['description']
         if 'name' in item and 'default' in item:
-            subtitle = "Current: %s" % (self.wf.settings.setdefault(item['name'], item['default']))
+            current_value = self.wf.settings.setdefault(item['name'], item['default'])
+            if 'list' in item:
+                current_value = next((i for i in item['list'] if i[1] == current_value))[0]
+            subtitle = "Current: %s" % (current_value)
         else:
             subtitle = ""
         return title, subtitle

@@ -11,21 +11,21 @@
         "name": "minus",
         "type": "str", 
         "keyword": "minus",
-        "description": "Set the key of showing previous month",
+        "description": "Set hotkey: showing previous month",
         "default": "<"
     }, 
     {
         "name": "plus",
         "type": "str", 
         "keyword": "plus",
-        "description": "Set the key of showing previous month",
+        "description": "Set hotkey: showing next month",
         "default": ">"
     },
     {
         "name": "first_day",
         "type": "int",
         "keyword": "week",
-        "description": "Set the first day of a week",
+        "description": "Set first day of a week",
         "list": [
             ["Monday", 0],
             ["Tuesday", 1],
