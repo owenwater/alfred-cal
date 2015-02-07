@@ -4,47 +4,42 @@
 from workflow import Workflow
 from cal import Cal
 from datetime import date
+from base import Base
 import sys
 
 
-class Main(object):
+class Main(Base):
 
     minus_default = u'<'
     plus_default = u'>'
+    first_day_default = 6
     weekdays_name_default = u"Mo Tu We Th Fr Sa Su"
     month_name_default = u"January February March April May June July August September October November December"
     width_default = 10
     highlight_today_default = True
 
-
-
     config_option = u"config"
     config_desc = u"Open config file"
 
-    def __init__(self, args):
-        self.args = unicode(args.strip(), 'utf-8')
 
-    def execute(self):
-        global LOG
-        wf = Workflow()
-        self.wf = wf
-        LOG = wf.logger
-        
-        self.minus = wf.settings.setdefault('minus', self.minus_default)
-        self.plus = wf.settings.setdefault('plus', self.plus_default)
-        wf.settings.setdefault('weekdays', self.weekdays_name_default).split()
-        wf.settings.setdefault("month", self.month_name_default).split()
-        wf.settings.setdefault("width", self.width_default)
-        wf.settings.setdefault("highlight_today", self.highlight_today_default)
+    def init_settings(self):
+        self.minus = self.wf.settings.setdefault('minus', self.minus_default)
+        self.plus = self.wf.settings.setdefault('plus', self.plus_default)
+        self.first_day = self.wf.settings.setdefault('first_day', self.first_day_default)
+        self.wf.settings.setdefault('weekdays', self.weekdays_name_default).split()
+        self.wf.settings.setdefault("month", self.month_name_default).split()
+        self.wf.settings.setdefault("width", self.width_default)
+        self.wf.settings.setdefault("highlight_today", self.highlight_today_default)
 
-        sys.exit(wf.run(self.main))
 
     def main(self, wf):
+        self.init_settings()
+
         cal = Cal(wf.settings, wf.alfred_env['theme'], wf.alfred_env['preferences'])
         year, month = self.handle_arg()
         if year == -1 and month == -1:
             return
-        texts = cal.get_weeks_text(year, month)
+        texts = cal.get_weeks_text(year, month, self.first_day)
         for index, text in enumerate(texts):
             if index == 0:
                 self.wf.add_item(text)
