@@ -86,14 +86,14 @@ class Config(Base):
     def _show_sub_list(self, sub_list, item, value):
         current_value = self.wf.settings.setdefault(item['name'], item['default'])
         for sub_item, sub_value in sub_list:
-            if value in sub_item:
+            if value.lower() in sub_item.lower():
                 title = sub_item
                 if sub_value == current_value:
                     title += "(selected)"
                 self.wf.add_item(title,
                                  valid=True,
                                  arg=item['name'] + Config.separator + str(sub_value),
-                                 autocomplete=sub_item.lower())
+                                 autocomplete=item['keyword'] + ' ' + sub_item.lower())
 
     @show
     def _show_action_item(self, item):
