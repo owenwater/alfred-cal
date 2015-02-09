@@ -3,30 +3,27 @@
 
 import calendar
 from datetime import date
-from util import get_default
 from format import Format
 
 
 class Cal(object):
     
-    weekdays_name_default = u"Mo Tu We Th Fr Sa Su"
-    month_name_default = u"January February March April May June July August September October November December"
-    width_default = 10
-    highlight_today_default = True
-
+   
     def __init__(self, settings, key, path):
-        self.weekdays_name = get_default(settings, "weekdays", self.weekdays_name_default).split()
-        self.month_name = get_default(settings, "month", self.month_name_default).split()
-        self.width = int(get_default(settings, "width", self.width_default))
-        self.highlight_today = get_default(settings, "highlight_today", self.highlight_today_default)
+        self.weekdays_name = settings["weekdays"].split()
+        self.month_name = settings["month"].split()
+        self.width = int(settings["width"])
+        self.highlight_today = settings["highlight_today"]
+
+
         self.key = key
         self.path = path
     
-    def get_weeks(self, year, month, first_weekday=6):
+    def get_weeks(self, year, month, first_weekday):
         cal = calendar.Calendar(first_weekday)
         return list(cal.itermonthdates(year, month))
 
-    def get_weeks_text(self, year, month, first_weekday=6):
+    def get_weeks_text(self, year, month, first_weekday):
         texts = []
         texts.append(self.month_text(year, month))
         texts.append(self.week_text(first_weekday))
@@ -75,5 +72,5 @@ if __name__ == "__main__":
     key = "alfred.theme.custom.A1911D25-FB72-4E1C-9180-7A8A71DB327F"
     path = "/Users/owen/Library/Application Support/Alfred 2/Alfred.alfredpreferences"
     c = Cal({}, key, path)
-    for line in c.get_weeks_text(2014, 11):
+    for line in c.get_weeks_text(2014, 11, 6):
         print line

@@ -4,37 +4,50 @@
 from workflow import Workflow
 from cal import Cal
 from datetime import date
-from util import get_default
+from base import Base
 import sys
+import re
 
 
-class Main(object):
+class Main(Base):
 
     minus_default = u'<'
     plus_default = u'>'
+    first_day_default = 6
+    weekdays_name_default = u"Mo Tu We Th Fr Sa Su"
+    month_name_default = u"January February March April May June July August September October November December"
+    width_default = 10
+    highlight_today_default = True
+
     config_option = u"config"
     config_desc = u"Open config file"
 
-    def __init__(self, args):
-        self.args = unicode(args.strip(), 'utf-8')
 
-    def execute(self):
-        global LOG
-        wf = Workflow()
-        self.wf = wf
-        LOG = wf.logger
-        
-        self.minus = get_default(wf.settings, 'minus', self.minus_default)
-        self.plus = get_default(wf.settings, 'plus', self.plus_default)
+    def init_settings(self):
+        self.minus = self.wf.settings.setdefault('minus', self.minus_default)
+        self.plus = self.wf.settings.setdefault('plus', self.plus_default)
+        self.first_day = self.wf.settings.setdefault('first_day', self.first_day_default)
+        self.wf.settings.setdefault('weekdays', self.weekdays_name_default).split()
+        self.wf.settings.setdefault("month", self.month_name_default).split()
+        self.wf.settings.setdefault("width", self.width_default)
+        self.wf.settings.setdefault("highlight_today", self.highlight_today_default)
 
-        sys.exit(wf.run(self.main))
 
     def main(self, wf):
+        self.init_settings()
+        self.pattern = re.compile('^(%s|%s)*$' % (self.minus, self.plus))
+
         cal = Cal(wf.settings, wf.alfred_env['theme'], wf.alfred_env['preferences'])
-        year, month = self.handle_arg()
+        try:
+            year, month = self.handle_arg()
+        except InvalidArgumentError as e:
+            self.wf.add_item(e.message)
+            self.wf.send_feedback()
+            return 
+
         if year == -1 and month == -1:
             return
-        texts = cal.get_weeks_text(year, month)
+        texts = cal.get_weeks_text(year, month, self.first_day)
         for index, text in enumerate(texts):
             if index == 0:
                 self.wf.add_item(text)
@@ -55,13 +68,16 @@ class Main(object):
         argv = self.args.split()
         today = date.today()
 
-        month = self.to_int(self.get_item(argv, 0), today.month)
-        year = self.to_int(self.get_item(argv, 1), today.year)
-        
-        if month <= 0 or month > 12:
-            raise ValueError("month must be in 1..12")
-        
-        delta_str = self.get_item(argv, -1, "")
+        month, get_month = self.to_month(self.get_item(argv, 0), today.month)
+        year, get_year = self.to_year(self.get_item(argv, 1), today.year)
+
+        #shift the used argument
+        if get_month:
+            argv = argv[1:]
+        if get_year:
+            argv = argv[1:]
+
+        delta_str = self.get_item(argv, 0, "")
         delta = delta_str.count(self.plus) - delta_str.count(self.minus)
 
         year, month = self.change_month(year, month, delta)
@@ -74,11 +90,43 @@ class Main(object):
         except IndexError:
             return default_value
 
-    def to_int(self, str, default_value):
+    def to_month(self, month, default_month):
         try:
-            return int(str)
+            ret = int(month)
+            if ret >= 1000:
+                raise InvalidArgumentError("Please enter month before year")
+            elif ret <= 0 or ret > 12:
+                raise InvalidArgumentError("month must be in 1..12")
+            return ret, True
+        except TypeError:
+            return default_month, False
+        except InvalidArgumentError:
+            raise
         except:
-            return default_value
+            month = month.lower()
+            for i, cal_month in enumerate(self.wf.settings['month'].split()):
+                if cal_month.lower().startswith(month):
+                    return i + 1, True
+
+            if not self.is_move(month):
+                raise InvalidArgumentError('Please enter valid month argument.')
+            else:
+                return default_month, False
+
+
+    def to_year(self, year, default_year):
+        try:
+            return int(year), True
+        except TypeError:
+            return default_year, False
+        except:
+            if not self.is_move(year):
+                raise  InvalidArgumentError('Please enter valid year argument.')
+            else:
+                return default_year, False
+    
+    def is_move(self, str):
+        return self.pattern.match(str)
 
     def change_month(self, year, month, delta):
         month += delta
@@ -90,6 +138,8 @@ class Main(object):
             ret_year -= 1
         return ret_year, ret_month
 
+class InvalidArgumentError(Exception):
+    pass
 
 if __name__ == "__main__":
     main = Main(" ".join(sys.argv[1:]))
