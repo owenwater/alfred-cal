@@ -13,7 +13,7 @@ Displays a monthly calendar with Alfred Workflow.
 	- `<, >` Display calendar of previous/next month.
 	- `month year` Display Calendar with specific month and year.
 
-- `cal config` Show configuration file.
+- `calconfig` More configuration options.
 
 #Format
 Workflow adjusts formatting based on font and font size of Alfred, please [open a ticket](https://github.com/owenwater/alfred-cal/issues/new) if there is any formatting issue.
