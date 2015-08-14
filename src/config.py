@@ -16,7 +16,7 @@ class Config(Base):
     
     separator = ' '
     open_config_file = "open_config_file"
-
+    
     def main(self, wf):
         self._handle_arg()
         self._load_json()

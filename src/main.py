@@ -8,7 +8,6 @@ from base import Base
 import sys
 import re
 
-
 class Main(Base):
 
     minus_default = u'<'
