@@ -17,6 +17,7 @@ class Config(Base):
     separator = ' '
     open_config_file = "open_config_file"
     
+
     def main(self, wf):
         self._handle_arg()
         self._load_json()
@@ -43,8 +44,22 @@ class Config(Base):
             self._open_file(self.wf.settings_path)
         else:
             self._handle_arg()
-            old_value = self.wf.settings[self.option]
-            self.wf.settings[self.option] = type(old_value)(self.value)
+            try:
+                old_value = self.wf.settings[self.option]
+                self.wf.settings[self.option] = type(old_value)(self.value)
+            except:
+                self._load_json()
+                for item in self.config:
+                    if item['name'] == self.option:
+                        self.wf.settings[self.option] = type(item['default'])(self.value)
+
+
+    def load_default(self, key):
+        self._load_json()
+        for item in self.config:
+            if key == item['name']:
+                return item['default']
+        return None
     
     def _open_file(self, file):
         import subprocess
@@ -56,9 +71,10 @@ class Config(Base):
         self.value = self.value.strip()
 
     def _load_json(self, file="config.json"):
-        with open(file) as fp:
-            self.config = json.load(fp)
-    
+        if not hasattr(self, 'config') or not self.config:
+            with open(file) as fp:
+                self.config = json.load(fp)
+
     def _filter_config_item(self):
         return [item for item in self.config if item['keyword'].startswith(self.option)]
     
@@ -84,7 +100,7 @@ class Config(Base):
 
     @show
     def _show_sub_list(self, sub_list, item, value):
-        current_value = self.wf.settings.setdefault(item['name'], item['default'])
+        current_value = self.wf.settings.get(item['name'], item['default'])
         for sub_item, sub_value in sub_list:
             if value.lower() in sub_item.lower():
                 title = sub_item
@@ -107,7 +123,7 @@ class Config(Base):
     def _get_text(self, item):
         title = item['description']
         if 'name' in item and 'default' in item:
-            current_value = self.wf.settings.setdefault(item['name'], item['default'])
+            current_value = self.wf.settings.get(item['name'], item['default'])
             if 'list' in item:
                 current_value = next((i for i in item['list'] if i[1] == current_value))[0]
             subtitle = "Current: %s" % (current_value)

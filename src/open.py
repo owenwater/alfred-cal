@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import subprocess
+from config import Config
 
 applescript_name_tem = "open_%s.scpt"
 arg_tem = {
@@ -9,6 +10,7 @@ arg_tem = {
     "fantastical": "%s-%s-%s",
     "busycal": "%s-%s-%s"
 }
+SOFTWARE = 'software'
 
 def open_cal(arg):
     arg = arg.strip()
@@ -18,12 +20,12 @@ def open_cal(arg):
         from workflow import Workflow
         wf = Workflow()
         
-        default_software = 'calendar'
-        software = wf.settings.get('software', default_software)
-        file_name = applescript_name_tem %(software)
+        default_software = Config('').load_default(SOFTWARE)
+        software_name = wf.settings.get(SOFTWARE, default_software)
+        file_name = applescript_name_tem %(software_name)
 
         year, month, day = arg.split()
-        script_arg = arg_tem[software] %(year, month, day)
+        script_arg = arg_tem[software_name] %(year, month, day)
 
         execute_osascript(file_name, script_arg)
 

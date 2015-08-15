@@ -16,14 +16,6 @@
 				<key>modifiersubtext</key>
 				<string></string>
 			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>01A62C83-0E3A-4A52-98C4-1188C2DCE8AA</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-			</dict>
 		</array>
 		<key>5DC00336-DCA8-49F2-9D02-57CF703B1D20</key>
 		<array>
@@ -47,21 +39,6 @@
 	<string>Calendar</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>01A62C83-0E3A-4A52-98C4-1188C2DCE8AA</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -196,11 +173,6 @@ if __name__=="__main__":
 	<string></string>
 	<key>uidata</key>
 	<dict>
-		<key>01A62C83-0E3A-4A52-98C4-1188C2DCE8AA</key>
-		<dict>
-			<key>ypos</key>
-			<real>10</real>
-		</dict>
 		<key>3C835BC3-638B-4577-AEDC-E23EEEA4A032</key>
 		<dict>
 			<key>ypos</key>
