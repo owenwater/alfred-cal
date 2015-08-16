@@ -18,7 +18,6 @@ class Config(Base):
     separator = ' '
     open_config_file = "open_config_file"
     
-
     def main(self, wf):
         self._handle_arg()
         self._load_json()
@@ -47,7 +46,6 @@ class Config(Base):
             self._handle_arg()
             old_value = self.wf.settings[self.option]
             self.wf.settings[self.option] = type(old_value)(self.value)
-
 
     def load_default(self, key):
         self._load_json()

@@ -12,6 +12,7 @@ arg_tem = {
 }
 SOFTWARE = 'software'
 
+
 def open_cal(arg):
     arg = arg.strip()
     if arg.endswith(".json"):
@@ -22,15 +23,17 @@ def open_cal(arg):
         
         default_software = Config('').load_default(SOFTWARE)
         software_name = wf.settings.get(SOFTWARE, default_software)
-        file_name = applescript_name_tem %(software_name)
+        file_name = applescript_name_tem % (software_name)
 
         year, month, day = arg.split()
-        script_arg = arg_tem[software_name] %(year, month, day)
+        script_arg = arg_tem[software_name] % (year, month, day)
 
         execute_osascript(file_name, script_arg)
 
+
 def execute_osascript(file, arg):
     subprocess.call(['osascript', file, arg])
+
 
 def open_file(file):
     subprocess.call(['open', file])
