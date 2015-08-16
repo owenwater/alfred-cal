@@ -5,6 +5,7 @@ from workflow import Workflow
 from cal import Cal
 from datetime import date
 from base import Base
+from util import get_from_dict
 import sys
 import re
 
@@ -21,15 +22,14 @@ class Main(Base):
     config_option = u"config"
     config_desc = u"Open config file"
 
-
     def init_settings(self):
-        self.minus = self.wf.settings.setdefault('minus', self.minus_default)
-        self.plus = self.wf.settings.setdefault('plus', self.plus_default)
-        self.first_day = self.wf.settings.setdefault('first_day', self.first_day_default)
-        self.wf.settings.setdefault('weekdays', self.weekdays_name_default).split()
-        self.wf.settings.setdefault("month", self.month_name_default).split()
-        self.wf.settings.setdefault("width", self.width_default)
-        self.wf.settings.setdefault("highlight_today", self.highlight_today_default)
+        self.minus = get_from_dict(self.wf.settings, 'minus', self.minus_default)
+        self.plus = get_from_dict(self.wf.settings, 'plus', self.plus_default)
+        self.first_day = get_from_dict(self.wf.settings, 'first_day', self.first_day_default)
+        get_from_dict(self.wf.settings, 'weekdays', self.weekdays_name_default).split()
+        get_from_dict(self.wf.settings, "month", self.month_name_default).split()
+        get_from_dict(self.wf.settings, "width", self.width_default)
+        get_from_dict(self.wf.settings, "highlight_today", self.highlight_today_default)
 
 
     def main(self, wf):
