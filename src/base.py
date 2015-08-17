@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # encoding: utf-8
 
+from util import DEFAULT_SETTINGS
 from workflow import Workflow
 import sys
 
@@ -10,7 +11,7 @@ class Base(object):
         self.args = unicode(args.strip(), 'utf-8')
 
     def execute(self):
-        wf = Workflow()
+        wf = Workflow(default_settings=DEFAULT_SETTINGS)
         self.wf = wf
         self.log = wf.logger
         sys.exit(wf.run(self.main))

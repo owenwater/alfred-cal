@@ -8,13 +8,11 @@ from format import Format
 
 class Cal(object):
     
-   
     def __init__(self, settings, key, path):
         self.weekdays_name = settings["weekdays"].split()
         self.month_name = settings["month"].split()
         self.width = int(settings["width"])
         self.highlight_today = settings["highlight_today"]
-
 
         self.key = key
         self.path = path

@@ -36,6 +36,19 @@
             ["Sunday", 6]
         ],
         "default": 6
+    },  
+    {   
+        "name": "software",
+        "type": "str",
+        "keyword": "software",
+        "description": "Set default calendar software",
+        "list": [
+            ["OS X Calendar", "calendar"],
+            ["Fantastical 2", "fantastical"],
+            ["BusyCal", "busycal"]
+        ],
+        "default": "calendar"
+
     },
     {
         "description": "Open config file",

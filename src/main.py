@@ -1,37 +1,28 @@
 #!/usr/bin/python
 # encoding: utf-8
 
-from workflow import Workflow
 from cal import Cal
 from datetime import date
 from base import Base
+from util import get_from_dict
+from util import DEFAULT_SETTINGS
 import sys
 import re
 
 
 class Main(Base):
 
-    minus_default = u'<'
-    plus_default = u'>'
-    first_day_default = 6
-    weekdays_name_default = u"Mo Tu We Th Fr Sa Su"
-    month_name_default = u"January February March April May June July August September October November December"
-    width_default = 10
-    highlight_today_default = True
-
     config_option = u"config"
     config_desc = u"Open config file"
 
-
     def init_settings(self):
-        self.minus = self.wf.settings.setdefault('minus', self.minus_default)
-        self.plus = self.wf.settings.setdefault('plus', self.plus_default)
-        self.first_day = self.wf.settings.setdefault('first_day', self.first_day_default)
-        self.wf.settings.setdefault('weekdays', self.weekdays_name_default).split()
-        self.wf.settings.setdefault("month", self.month_name_default).split()
-        self.wf.settings.setdefault("width", self.width_default)
-        self.wf.settings.setdefault("highlight_today", self.highlight_today_default)
-
+        self.minus = get_from_dict(self.wf.settings, 'minus', DEFAULT_SETTINGS['minus'])
+        self.plus = get_from_dict(self.wf.settings, 'plus', DEFAULT_SETTINGS['plus'])
+        self.first_day = get_from_dict(self.wf.settings, 'first_day', DEFAULT_SETTINGS['first_day'])
+        get_from_dict(self.wf.settings, 'weekdays', DEFAULT_SETTINGS['weekdays'])
+        get_from_dict(self.wf.settings, "month", DEFAULT_SETTINGS['month'])
+        get_from_dict(self.wf.settings, "width", DEFAULT_SETTINGS['width'])
+        get_from_dict(self.wf.settings, "highlight_today", DEFAULT_SETTINGS['highlight_today'])
 
     def main(self, wf):
         self.init_settings()
@@ -43,7 +34,7 @@ class Main(Base):
         except InvalidArgumentError as e:
             self.wf.add_item(e.message)
             self.wf.send_feedback()
-            return 
+            return
 
         if year == -1 and month == -1:
             return
@@ -71,7 +62,7 @@ class Main(Base):
         month, get_month = self.to_month(self.get_item(argv, 0), today.month)
         year, get_year = self.to_year(self.get_item(argv, 1), today.year)
 
-        #shift the used argument
+        # shift the used argument
         if get_month:
             argv = argv[1:]
         if get_year:
@@ -113,7 +104,6 @@ class Main(Base):
             else:
                 return default_month, False
 
-
     def to_year(self, year, default_year):
         try:
             return int(year), True
@@ -121,7 +111,7 @@ class Main(Base):
             return default_year, False
         except:
             if not self.is_move(year):
-                raise  InvalidArgumentError('Please enter valid year argument.')
+                raise InvalidArgumentError('Please enter valid year argument.')
             else:
                 return default_year, False
     
@@ -137,6 +127,7 @@ class Main(Base):
         if month % 12 == 0:
             ret_year -= 1
         return ret_year, ret_month
+
 
 class InvalidArgumentError(Exception):
     pass

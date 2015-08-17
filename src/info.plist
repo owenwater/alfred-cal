@@ -81,14 +81,20 @@ if __name__=="__main__":
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>#!/bin/bash
+				<string>#!/usr/bin/python
+# encoding: utf-8
 
-bash run.sh "{query}"</string>
+from open import open_cal
+
+if __name__=="__main__":
+    open_cal("{query}")</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>3</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
@@ -113,7 +119,7 @@ bash run.sh "{query}"</string>
 				<key>queuedelaymode</key>
 				<integer>0</integer>
 				<key>queuemode</key>
-				<integer>2</integer>
+				<integer>1</integer>
 				<key>script</key>
 				<string>#!/usr/bin/python
 
@@ -139,6 +145,8 @@ if __name__=="__main__":
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>script</key>

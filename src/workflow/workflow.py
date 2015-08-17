@@ -2255,8 +2255,13 @@ class Workflow(object):
         if isinstance(version, basestring):
             from update import Version
             version = Version(version)
-
-        self.settings['__workflow_last_version'] = str(version)
+        
+        try:
+            old_version = self.settings['__workflow_last_version'] 
+            if old_version != str(version):
+                self.settings['__workflow_last_version'] = str(version)
+        except KeyError:
+            self.settings['__workflow_last_version'] = str(version)
 
         self.logger.debug('Set last run version : {0}'.format(version))
 
