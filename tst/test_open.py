@@ -27,4 +27,19 @@ class TestOpen(unittest.TestCase):
         open_cal('2000 01 01')
 
         mock_config_instance.load_default.assert_called_once_with('software')
-        mock_sub.call.assert_called_once_with(['osascript', 'open_busycal.scpt', '2000-01-01'])
+        mock_sub.call.assert_called_once_with(['osascript', 'osascript/open_busycal.scpt', '2000-01-01'])
+
+    @mock.patch('open.subprocess')
+    @mock.patch('workflow.Workflow')
+    @mock.patch('open.Config')
+    def test_open_google_calendar(self, mock_config, mock_wf, mock_sub):
+        mock_config_instance = mock_config.return_value
+        mock_config_instance.load_default.return_value = 'google'
+        
+        mock_wf_instance = mock_wf.return_value
+        mock_wf_instance.settings = {}
+
+        open_cal('2000 1 1')
+
+        mock_config_instance.load_default.assert_called_once_with('software')
+        mock_sub.call.assert_called_once_with(['osascript', 'osascript/open_google.scpt', '20000101'])

@@ -43,9 +43,10 @@
         "keyword": "software",
         "description": "Set default calendar software",
         "list": [
-            ["OS X Calendar", "calendar"],
+            ["BusyCal", "busycal"],
             ["Fantastical 2", "fantastical"],
-            ["BusyCal", "busycal"]
+            ["Google Calendar", "google"],
+            ["OS X Calendar", "calendar"]
         ],
         "default": "calendar"
 

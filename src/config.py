@@ -100,7 +100,7 @@ class Config(Base):
             if value.lower() in sub_item.lower():
                 title = sub_item
                 if sub_value == current_value:
-                    title += "(selected)"
+                    title += " (selected)"
                 self.wf.add_item(title,
                                  valid=True,
                                  arg=item['name'] + Config.separator + str(sub_value),

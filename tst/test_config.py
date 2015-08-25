@@ -256,7 +256,7 @@ class TestConfig(unittest.TestCase):
 
         calls = [
             mock.call(u'oa1', arg=u'i2_n 0', autocomplete=u'i2_k oa1', valid=True),
-            mock.call(u'oa2(selected)', arg=u'i2_n 1', autocomplete=u'i2_k oa2', valid=True),
+            mock.call(u'oa2 (selected)', arg=u'i2_n 1', autocomplete=u'i2_k oa2', valid=True),
             mock.call(u'o3', arg=u'i2_n 2', autocomplete=u'i2_k o3', valid=True)
         ]
         mock_wf_instance.add_item.assert_has_calls(calls)
@@ -273,7 +273,7 @@ class TestConfig(unittest.TestCase):
 
         calls = [
             mock.call(u'oa1', arg=u'i2_n 0', autocomplete=u'i2_k oa1', valid=True),
-            mock.call(u'oa2(selected)', arg=u'i2_n 1', autocomplete=u'i2_k oa2', valid=True),
+            mock.call(u'oa2 (selected)', arg=u'i2_n 1', autocomplete=u'i2_k oa2', valid=True),
         ]
         mock_wf_instance.add_item.assert_has_calls(calls)
         mock_wf_instance.send_feedback.assert_called_once_with()
