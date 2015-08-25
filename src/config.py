@@ -26,8 +26,10 @@ class Config(Base):
         if len(config) == 1 and config[0]['keyword'] == self.option:
             if 'list' in config[0]:
                 self._show_sub_list(config[0]['list'], config[0], self.value)
+                return
             elif 'action' in config[0]:
                 self._show_action_item(config[0])
+                return
             elif self.value != "":
                 self._show_item(config[0], self.value)
                 return
@@ -119,7 +121,7 @@ class Config(Base):
             current_value = get_from_dict(self.wf.settings, item['name'], item['default'])
             if 'list' in item:
                 current_value = next((i for i in item['list'] if i[1] == current_value))[0]
-            subtitle = "Current: %s" % (current_value)
+            subtitle = u"Current: %s" % (current_value)
         else:
             subtitle = ""
         return title, subtitle
