@@ -95,6 +95,8 @@ class Main(Base):
             raise
         except:
             month = month.lower()
+            if month[-1] == '.' and len(month) > 1:
+                month = month[:-1]
             for i, cal_month in enumerate(self.wf.settings['month'].split()):
                 if cal_month.lower().startswith(month):
                     return i + 1, True
