@@ -9,11 +9,18 @@ Displays a monthly calendar with Alfred Workflow.
 #Usage
 - `cal [month [year]] [<] [>]`
 	- `↕` Choose a week.
-	- `enter ↵` Open `/Application/Calendar` with week view and selected week.
+	- `enter ↵` Open [Supported Calendar Software](#support) with week view on selected week.
 	- `<, >` Display calendar of previous/next month.
-	- `month year` Display Calendar with specific month and year.
+	- `[month [year]]` Display calendar with specific month and year. `month` can be numbers or English words.
 
 - `calconfig` More configuration options.
+
+<a name="support"></a>
+#Supported Calendar Software
+- BusyCal
+- Fantastical 2
+- Google Calendar
+- OS X Calendar
 
 #Format
 Workflow adjusts formatting based on font and font size of Alfred, please [open a ticket](https://github.com/owenwater/alfred-cal/issues/new) if there is any formatting issue.

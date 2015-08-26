@@ -4,11 +4,12 @@
 import subprocess
 from config import Config
 
-applescript_name_tem = "open_%s.scpt"
+applescript_name_tem = "osascript/open_%s.scpt"
 arg_tem = {
     "calendar": "%s %s %s",
     "fantastical": "%s-%s-%s",
-    "busycal": "%s-%s-%s"
+    "busycal": "%s-%s-%s",
+    "google": "%s%s%s"
 }
 SOFTWARE = 'software'
 
@@ -26,8 +27,8 @@ def open_cal(arg):
         file_name = applescript_name_tem % (software_name)
 
         year, month, day = arg.split()
-        script_arg = arg_tem[software_name] % (year, month, day)
-
+        script_arg = arg_tem[software_name] % (year, month.zfill(2), day.zfill(2))
+        
         execute_osascript(file_name, script_arg)
 
 
